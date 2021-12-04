@@ -236,6 +236,15 @@ void Optimizer::BundleAdjustment(const vector<KeyFrame *> &vpKFs, const vector<M
 
 }
 
+Optimizer::PoseOptimizationROS(imMat)
+{
+    ptr=imMat;
+    int row = ptr.rows;
+    int col = ptr.cols;
+    MatrixXd m(row, col);
+    cv2eigen(ptr,m);
+}
+
 int Optimizer::PoseOptimization(Frame *pFrame)
 {
     g2o::SparseOptimizer optimizer;
