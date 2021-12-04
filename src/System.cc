@@ -318,6 +318,17 @@ cv::Mat System::TrackMonocularRos(const cv::Mat &im, const double &timestamp,Eig
     return Tcw;
 }
 
+cv::Mat System::TrackMonocularROS(const cv::Mat &imMat)
+{
+    if(mSensor!=MONOCULAR)
+    {
+        cerr << "ERROR: you called TrackMonocular but input sensor was not set to Monocular." << endl;
+        exit(-1);
+    }
+    cv::Mat TMAT = imMat->PoseOptimizationROS(imMat);
+    return TMAT;
+}
+
 void System::ActivateLocalizationMode()
 {
     unique_lock<mutex> lock(mMutexMode);
