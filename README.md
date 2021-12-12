@@ -18,11 +18,11 @@ The node reads images from topic `/camera/image_raw`.
   ```
   
   ```
-  rosrun ORB_SLAM2 Mono Vocabulary/ORBvoc.txt Examples/monocular/TUM1.yaml
+  rosrun ORB_SLAM2 Mono Vocabulary/ORBvoc.txt Examples/Monocular/TUM1.yaml
   ```
   
   ```
-  rosbag play --pause 2021-11-13-16-25-40.bag 
+  rosbag play --pause 2021-11-13-16-25-40.bag  /camera/rgb/image_color:=/kitti/camera_color_left/image_raw
   ```
 ### Running Stereo Node
 For a stereo input from topic `/camera/left/image_raw` and `/camera/right/image_raw` run node ORB_SLAM2/Stereo. You will need to provide the vocabulary file and a settings file. If you **provide rectification matrices** (see Examples/Stereo/EuRoC.yaml example), the node will recitify the images online, **otherwise images must be pre-rectified**.
