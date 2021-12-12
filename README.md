@@ -13,7 +13,7 @@ The node reads images from topic `/camera/image_raw`.
   rosrun ORB_SLAM2 MonoAR PATH_TO_VOCABULARY PATH_TO_SETTINGS_FILE
   ```
   **Example**:
-    ```
+  ```
   roscore
   ```
   
