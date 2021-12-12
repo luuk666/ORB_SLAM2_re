@@ -69,9 +69,9 @@ int main(int argc, char **argv)
 
     ros::NodeHandle nodeHandler;
 ////////////////////
-    ros::Subscriber sub2 = nodeHandler.subscribe("/robot_pose", 1, &ImageGrabber::GrabMetrix,&igb);
+    ros::Subscriber sub2 = nodeHandler.subscribe("robot_pose", 1, &ImageGrabber::GrabMetrix,&igb);
 //////////////////////////
-    ros::Subscriber sub = nodeHandler.subscribe("/camera/rgb/image_color", 1, &ImageGrabber::GrabImage,&igb);
+    ros::Subscriber sub = nodeHandler.subscribe("/kitti/camera_color_left/image_raw", 1, &ImageGrabber::GrabImage,&igb);
     //MXW9.7
     
 
