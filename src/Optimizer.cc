@@ -29,11 +29,12 @@
 #include "Thirdparty/g2o/g2o/types/types_seven_dof_expmap.h"
 
 #include<Eigen/StdVector>
-
+#include <Eigen/Core>
 #include "Converter.h"
 
 #include<mutex>
-
+ cv::Mat & ptr;
+ Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic>  m;
 namespace ORB_SLAM2
 {
 
@@ -236,12 +237,10 @@ void Optimizer::BundleAdjustment(const vector<KeyFrame *> &vpKFs, const vector<M
 
 }
 
-Optimizer::PoseOptimizationROS(imMat)
+ cv::Mat Optimizer::PoseOptimizationROS(const cv::Mat & imMat)
 {
     ptr=imMat;
-    int row = ptr.rows;
-    int col = ptr.cols;
-    MatrixXd m(row, col);
+
     cv2eigen(ptr,m);
 }
 
@@ -300,8 +299,8 @@ int Optimizer::PoseOptimization(Frame *pFrame)
                 Eigen::Matrix<double,2,1> obs;
                 const cv::KeyPoint &kpUn = pFrame->mvKeysUn[i];
                 obs << kpUn.pt.x, kpUn.pt.y;
-                /*float  prob=metrix2( kpUn.pt.x, kpUn.pt.y);
-                cout<<metrix2<<endl;*/
+                float  prob=m( kpUn.pt.x, kpUn.pt.y);
+                cout<<prob<<endl;
 
                 g2o::EdgeSE3ProjectXYZOnlyPose* e = new g2o::EdgeSE3ProjectXYZOnlyPose();
 
