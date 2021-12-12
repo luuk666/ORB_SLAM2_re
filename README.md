@@ -1,21 +1,4 @@
-# ORB-SLAM2
-# ROS Examples
-
-### Building the nodes for mono, monoAR, stereo and RGB-D
-1. Add the path including *Examples/ROS/ORB_SLAM2* to the ROS_PACKAGE_PATH environment variable. Open .bashrc file and add at the end the following line. Replace PATH by the folder where you cloned ORB_SLAM2:
-
-  ```
-  export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:PATH/ORB_SLAM2/Examples/ROS
-  ```
-  
-2. Execute `build_ros.sh` script:
-
-  ```
-  chmod +x build_ros.sh
-  ./build_ros.sh
-  ```
-  
-### Running Monocular Node
+# Running Monocular Node
 For a monocular input from topic `/camera/image_raw` run node ORB_SLAM2/Mono. You will need to provide the vocabulary file and a settings file. See the monocular examples above.
 
   ```
@@ -29,7 +12,18 @@ The node reads images from topic `/camera/image_raw`.
   ```
   rosrun ORB_SLAM2 MonoAR PATH_TO_VOCABULARY PATH_TO_SETTINGS_FILE
   ```
+  **Example**:
+    ```
+  roscore
+  ```
   
+  ```
+  rosrun ORB_SLAM2 Mono Vocabulary/ORBvoc.txt Examples/monocular/TUM1.yaml
+  ```
+  
+  ```
+  rosbag play --pause 2021-11-13-16-25-40.bag 
+  ```
 ### Running Stereo Node
 For a stereo input from topic `/camera/left/image_raw` and `/camera/right/image_raw` run node ORB_SLAM2/Stereo. You will need to provide the vocabulary file and a settings file. If you **provide rectification matrices** (see Examples/Stereo/EuRoC.yaml example), the node will recitify the images online, **otherwise images must be pre-rectified**.
 
