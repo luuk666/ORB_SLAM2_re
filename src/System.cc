@@ -217,7 +217,7 @@ cv::Mat System::TrackRGBD(const cv::Mat &im, const cv::Mat &depthmap, const doub
     return Tcw;
 }
 
-cv::Mat System::TrackMonocularRos(const cv::Mat &im, const double &timestamp,Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic> metrix)
+cv::Mat System::TrackMonocularROS(const cv::Mat& imMat)
 {
     if(mSensor!=MONOCULAR)
     {
@@ -258,7 +258,7 @@ cv::Mat System::TrackMonocularRos(const cv::Mat &im, const double &timestamp,Eig
         mbReset = false;
     }
     }
-     cv::Mat Tcw = mpTracker->GrabImageMonocularRos(im,timestamp,metrix);
+     cv::Mat Tcw = mpTracker->GrabImageMonocularRos(imMat);
 
     unique_lock<mutex> lock2(mMutexState);
     mTrackingState = mpTracker->mState;
@@ -318,16 +318,17 @@ cv::Mat System::TrackMonocularRos(const cv::Mat &im, const double &timestamp,Eig
     return Tcw;
 }
 
-cv::Mat System::TrackMonocularROS(const cv::Mat &imMat)
-{
-    if(mSensor!=MONOCULAR)
-    {
-        cerr << "ERROR: you called TrackMonocular but input sensor was not set to Monocular." << endl;
-        exit(-1);
-    }
-    cv::Mat TMAT = imMat->PoseOptimizationROS(imMat);
-    return TMAT;
-}
+//cv::Mat System::TrackMonocularROS(const cv::Mat &imMat)
+//{
+    //if(mSensor!=MONOCULAR)
+    //{
+       // cerr << "ERROR: you called TrackMonocular but input sensor was not set to Monocular." << endl;
+        //exit(-1);
+    //}
+   // cv::Mat TMAT = Optimizer::PoseOptimizationROS(imMat);
+    //change
+   // return TMAT;
+//}
 
 void System::ActivateLocalizationMode()
 {
