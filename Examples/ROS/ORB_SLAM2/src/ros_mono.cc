@@ -144,7 +144,7 @@ void ImageGrabber::GrabMetrix(const std_msgs::Float64MultiArray msg)
     //metrix2=Eigen::Map<Eigen::MatrixXd>(metrix3.data());
    
     Mat img;
-    eigen2cv(metrix2, img);
+    cv::eigen2cv(metrix2, img);
     mpSLAM->TrackMonocularROS(img->image);
 }
 //////
