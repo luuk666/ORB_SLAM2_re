@@ -28,9 +28,11 @@
 #include "Thirdparty/g2o/g2o/solvers/linear_solver_dense.h"
 #include "Thirdparty/g2o/g2o/types/types_seven_dof_expmap.h"
 
+#include<Eigen/Dense>
 #include<Eigen/StdVector>
 #include <Eigen/Core>
 #include "Converter.h"
+#include "opencv2/core/eigen.hpp"
 
 #include<mutex>
  cv::Mat ptr;
