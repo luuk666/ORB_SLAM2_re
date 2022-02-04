@@ -29,10 +29,15 @@
 #include<ros/ros.h>
 #include <cv_bridge/cv_bridge.h>
 
+#include<Eigen/Dense>
+#include<Eigen/StdVector>
+#include <Eigen/Core>
+#include "Converter.h"
+#include "opencv2/core/eigen.hpp"
+
 #include<opencv2/core/core.hpp>
 ////////////////
 #include "std_msgs/Float64MultiArray.h"
-#include <Eigen/Core>
 ///////////////
 #include"../../../include/System.h"
 using namespace std;
@@ -143,8 +148,8 @@ void ImageGrabber::GrabMetrix(const std_msgs::Float64MultiArray msg)
     //metrix3=metrix.tail(num-2);
     //metrix2=Eigen::Map<Eigen::MatrixXd>(metrix3.data());
    
-    Mat img;
+    cv::Mat img;
     cv::eigen2cv(metrix2, img);
-    mpSLAM->TrackMonocularROS(img->image);
+    mpSLAM->TrackMonocularROS(img);
 }
 //////
