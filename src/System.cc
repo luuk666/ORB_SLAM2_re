@@ -258,8 +258,8 @@ cv::Mat System::TrackMonocularROS(const cv::Mat& imMat)
         mbReset = false;
     }
     }
-     cv::Mat Tcw = mpTracker->GrabImageMonocularRos(imMat);
-
+    cv::Mat Tcw = mpTracker->GrabImageMonocularRos(imMat);
+    
     unique_lock<mutex> lock2(mMutexState);
     mTrackingState = mpTracker->mState;
     mTrackedMapPoints = mpTracker->mCurrentFrame.mvpMapPoints;
