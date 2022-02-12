@@ -37,6 +37,7 @@
 #include<mutex>
  cv::Mat ptr;
  Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic>  m;
+ bool flag = false;
 namespace ORB_SLAM2
 {
 
@@ -239,50 +240,53 @@ void Optimizer::BundleAdjustment(const vector<KeyFrame *> &vpKFs, const vector<M
 
 }
 
- cv::Mat Optimizer::PoseOptimizationROS(const cv::Mat & imMat)
+void Optimizer::PoseOptimizationROS(const cv::Mat & imMat)
 {
     ptr=imMat;
+    flag = true;
     //change   
 }
 
 int Optimizer::PoseOptimization(Frame *pFrame)
 {
-    cv::cv2eigen(ptr, m);
-    g2o::SparseOptimizer optimizer;
-    g2o::BlockSolver_6_3::LinearSolverType* linearSolver;
+    if (flag == true)
+    {
+        cv::cv2eigen(ptr, m);
+        g2o::SparseOptimizer optimizer;
+        g2o::BlockSolver_6_3::LinearSolverType* linearSolver;
 
-    linearSolver = new g2o::LinearSolverDense<g2o::BlockSolver_6_3::PoseMatrixType>();
+        linearSolver = new g2o::LinearSolverDense<g2o::BlockSolver_6_3::PoseMatrixType>();
 
-    g2o::BlockSolver_6_3* solver_ptr = new g2o::BlockSolver_6_3(linearSolver);
+        g2o::BlockSolver_6_3* solver_ptr = new g2o::BlockSolver_6_3(linearSolver);
 
-    g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg(solver_ptr);
-    optimizer.setAlgorithm(solver);
+        g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg(solver_ptr);
+        optimizer.setAlgorithm(solver);
 
-    int nInitialCorrespondences = 0;
+        int nInitialCorrespondences = 0;
 
-    // Set Frame vertex
-    g2o::VertexSE3Expmap* vSE3 = new g2o::VertexSE3Expmap();
-    vSE3->setEstimate(Converter::toSE3Quat(pFrame->mTcw));
-    vSE3->setId(0);
-    vSE3->setFixed(false);
-    optimizer.addVertex(vSE3);
+        // Set Frame vertex
+        g2o::VertexSE3Expmap* vSE3 = new g2o::VertexSE3Expmap();
+        vSE3->setEstimate(Converter::toSE3Quat(pFrame->mTcw));
+        vSE3->setId(0);
+        vSE3->setFixed(false);
+        optimizer.addVertex(vSE3);
 
-    // Set MapPoint vertices
-    const int N = pFrame->N;
+        // Set MapPoint vertices
+        const int N = pFrame->N;
 
-    vector<g2o::EdgeSE3ProjectXYZOnlyPose*> vpEdgesMono;
-    vector<size_t> vnIndexEdgeMono;
-    vpEdgesMono.reserve(N);
-    vnIndexEdgeMono.reserve(N);
+        vector<g2o::EdgeSE3ProjectXYZOnlyPose*> vpEdgesMono;
+        vector<size_t> vnIndexEdgeMono;
+        vpEdgesMono.reserve(N);
+        vnIndexEdgeMono.reserve(N);
 
-    vector<g2o::EdgeStereoSE3ProjectXYZOnlyPose*> vpEdgesStereo;
-    vector<size_t> vnIndexEdgeStereo;
-    vpEdgesStereo.reserve(N);
-    vnIndexEdgeStereo.reserve(N);
+        vector<g2o::EdgeStereoSE3ProjectXYZOnlyPose*> vpEdgesStereo;
+        vector<size_t> vnIndexEdgeStereo;
+        vpEdgesStereo.reserve(N);
+        vnIndexEdgeStereo.reserve(N);
 
-    const float deltaMono = sqrt(5.991);
-    const float deltaStereo = sqrt(7.815);
-
+        const float deltaMono = sqrt(5.991);
+        const float deltaStereo = sqrt(7.815);
+    }
 
     {
         unique_lock<mutex> lock(MapPoint::mGlobalMutex);

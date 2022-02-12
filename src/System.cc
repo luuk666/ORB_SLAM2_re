@@ -217,7 +217,7 @@ cv::Mat System::TrackRGBD(const cv::Mat &im, const cv::Mat &depthmap, const doub
     return Tcw;
 }
 
-cv::Mat System::TrackMonocularROS(const cv::Mat& imMat)
+void System::TrackMonocularROS(const cv::Mat& imMat)
 {
     if(mSensor!=MONOCULAR)
     {
@@ -258,7 +258,7 @@ cv::Mat System::TrackMonocularROS(const cv::Mat& imMat)
         mbReset = false;
     }
     }
-    cv::Mat Tcw = mpTracker->GrabImageMonocularRos(imMat);
+    mpTracker->GrabImageMonocularRos(imMat);
     
     unique_lock<mutex> lock2(mMutexState);
     mTrackingState = mpTracker->mState;
