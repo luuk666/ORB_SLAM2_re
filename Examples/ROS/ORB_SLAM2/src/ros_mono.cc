@@ -151,5 +151,6 @@ void ImageGrabber::GrabMetrix(const std_msgs::Float64MultiArray msg)
     cv::Mat img;
     cv::eigen2cv(metrix2, img);
     mpSLAM->TrackMonocularROS(img);
+    std::cout << "ROS part is ok!" <<std::endl;
 }
 //////
